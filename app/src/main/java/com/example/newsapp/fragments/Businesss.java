@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.newsapp.OnRecyclerViewItemClickListener;
 import com.example.newsapp.R;
 import com.example.newsapp.activity.MainActivity;
 import com.example.newsapp.activity.WebActivity;
@@ -34,9 +35,9 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Businesss extends Fragment  {
+public class Businesss extends Fragment implements OnRecyclerViewItemClickListener {
 
-    final static String API_KEY="";
+    final static String API_KEY="84d8b3715ff8473cb205b26cdfd6eeac";
     public String url = null;
 
 
@@ -70,7 +71,7 @@ public class Businesss extends Fragment  {
                     List<Article> articleList = response.body().getArticles();
                     if(articleList.size()>0){
                         final articleAdapter adapter = new articleAdapter(articleList);
-
+                        Log.d("Test", "res"+response.body().toString());
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -79,10 +80,18 @@ public class Businesss extends Fragment  {
 
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
-                Log.v("tag", "failed in enqueue");
+                Log.v("tag", "failed in enqueue"+t.toString());
 
             }
         });
+    }
+
+    @Override
+    public void OnItemClick(Article article) {
+        Log.d("Test","OnClicked");
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("url", article.getUrl());
+        startActivity(intent);
     }
 
 

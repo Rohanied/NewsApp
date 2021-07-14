@@ -76,7 +76,7 @@ public class TopHeadlines extends Fragment implements OnRecyclerViewItemClickLis
 
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
-                Log.v("tag", "failed in enqueue");
+                Log.v("tag", "failed in enqueue"+t.toString());
 
             }
         });
@@ -85,15 +85,11 @@ public class TopHeadlines extends Fragment implements OnRecyclerViewItemClickLis
 
 
     @Override
-    public void OnItemClick(int position, View view) {
-        switch (view.getId()){
-            case R.id.parent_view:
-                Article article = (Article) view.getTag();
-                Intent intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", article.getUrl());
-                break;
-                default:
-        }
+    public void OnItemClick(Article article) {
+        Log.d("Test","OnClicked");
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("url", article.getUrl());
+        startActivity(intent);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.newsapp.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.newsapp.OnRecyclerViewItemClickListener;
 import com.example.newsapp.R;
+import com.example.newsapp.activity.WebActivity;
 import com.example.newsapp.adapter.articleAdapter;
 import com.example.newsapp.model.Article;
 import com.example.newsapp.model.ResponseModel;
@@ -33,7 +36,7 @@ import static com.example.newsapp.fragments.Businesss.API_KEY;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Health extends Fragment {
+public class Health extends Fragment implements OnRecyclerViewItemClickListener  {
 
 
     public Health() {
@@ -79,4 +82,11 @@ public class Health extends Fragment {
         });
     }
 
+    @Override
+    public void OnItemClick(Article article) {
+        Log.d("Test","OnClicked");
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("url", article.getUrl());
+        startActivity(intent);
+    }
 }

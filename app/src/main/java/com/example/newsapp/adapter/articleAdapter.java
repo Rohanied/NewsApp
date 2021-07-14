@@ -39,12 +39,18 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.customVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull customViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull customViewHolder holder, final int position) {
         final Article articleModel = articleList.get(position);
         if (!TextUtils.isEmpty(articleModel.getTitle()))
             holder.titleText.setText(articleModel.getTitle());
         holder.descriptionText.setText(articleModel.getDescription());
         holder.mainAdapterParentLinear.setTag(articleModel);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRecyclerViewItemClickListener.OnItemClick(articleList.get(position));
+            }
+        });
         String urltoimage = articleModel.getUrlToImage();
         Picasso.get().load(urltoimage).into(holder.imageView);
 
@@ -68,18 +74,22 @@ public class articleAdapter extends RecyclerView.Adapter<articleAdapter.customVi
             descriptionText = (TextView) view.findViewById(R.id.description_text);
             mainAdapterParentLinear = (LinearLayout) view.findViewById(R.id.parent_view);
             imageView = (ImageView) view.findViewById(R.id.image);
-            mainAdapterParentLinear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onRecyclerViewItemClickListener != null)  {
-                        onRecyclerViewItemClickListener.OnItemClick(getAdapterPosition(), view);
-                    }
-                }
-            });
+//            mainAdapterParentLinear.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (onRecyclerViewItemClickListener != null)  {
+//                        onRecyclerViewItemClickListener.OnItemClick(articleList[pos]);
+//                    }
+//                }
+//            });
 
         }
     }
     public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
         this.onRecyclerViewItemClickListener = onRecyclerViewItemClickListener;
+    }
+
+    interface OnClickArticle{
+        void onClickArticle(Article article);
     }
 }
